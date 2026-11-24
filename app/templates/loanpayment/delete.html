@@ -1,0 +1,30 @@
+
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<h1>Delete Loan Payment</h1>
+
+<p>Are you sure you want to delete this payment?</p>
+
+<p>Borrower: {{ data.loan_application.borrower.name }}</p>
+<p>Loan Amount: {{ data.loan_application.amount }}</p>
+<p>Payment Amount: {{ data.payment_amount }}</p>
+<p>Payment Date: {{ data.payment_date }}</p>
+<p>Status: {{ data.status }}</p>
+<p>Description: {{ data.description }}</p>
+
+<form method="POST" action="{% url 'remove_loan_payment' data.id %}">
+    {% csrf_token %}
+
+    <button type="submit" class="btn btn-danger">
+        Yes, Delete
+    </button>
+
+    <a href="{% url 'loan_payment_index' %}"
+       class="btn btn-secondary">
+        Cancel
+    </a>
+</form>
+
+{% endblock content %}

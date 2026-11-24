@@ -1,0 +1,53 @@
+
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<h1>Add Borrower</h1>
+
+<form method="POST" action="{% url 'save_borrower' %}">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label>Name</label>
+        <input type="text" name="name" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label>Gender</label>
+        <select name="gender" class="form-control" required>
+            <option value="">-- Select Gender --</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Date of Birth</label>
+        <input type="date" name="date_of_birth" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label>Phone</label>
+        <input type="text" name="phone" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label>Email</label>
+        <input type="email" name="email" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label>Address</label>
+        <textarea name="address" class="form-control" required></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+
+    <a href="{% url 'borrower_index' %}" class="btn btn-secondary">
+        Back
+    </a>
+
+</form>
+
+{% endblock content %}

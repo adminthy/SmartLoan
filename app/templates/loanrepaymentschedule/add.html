@@ -1,0 +1,60 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2>Add Loan Repayment Schedule</h2>
+
+    <form method="POST" action="{% url 'save_loan_repayment_schedule' %}">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label>Loan Application</label>
+            <select name="loan_application" class="form-control" required>
+                <option value="">-- Select Borrower --</option>
+
+                {% for item in applications %}
+                <option value="{{ item.id }}">
+                    {{ item.borrower.name }} - {{ item.amount }}
+                </option>
+                {% endfor %}
+
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label>Due Date</label>
+            <input type="date" name="due_date"
+                   class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Payment Amount</label>
+            <input type="number" name="payment_amount"
+                   class="form-control" step="0.01" min="0.01" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Status</label>
+            <select name="status" class="form-control" required>
+                <option value="Pending">Pending</option>
+                <option value="Paid">Paid</option>
+                <option value="Overdue">Overdue</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Save
+        </button>
+
+        <a href="{% url 'loan_repayment_schedule_index' %}"
+           class="btn btn-secondary">
+            Back
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

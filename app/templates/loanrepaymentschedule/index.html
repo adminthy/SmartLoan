@@ -1,0 +1,62 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2>Loan Repayment Schedule</h2>
+
+    <a href="{% url 'add_loan_repayment_schedule' %}"
+       class="btn btn-primary mb-3">
+        Add Repayment Schedule
+    </a>
+
+    <table class="table table-bordered table-striped">
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Borrower</th>
+                <th>Due Date</th>
+                <th>Payment Amount</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in data %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ item.loan_application.borrower.name }}</td>
+                <td>{{ item.due_date }}</td>
+                <td>{{ item.payment_amount }}</td>
+                <td>{{ item.status }}</td>
+
+                <td>
+                    <a href="{% url 'edit_loan_repayment_schedule' item.id %}"
+                       class="btn btn-warning btn-sm">
+                        Edit
+                    </a>
+
+                    <a href="{% url 'delete_loan_repayment_schedule' item.id %}"
+                       class="btn btn-danger btn-sm">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">
+                    No repayment schedule found.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

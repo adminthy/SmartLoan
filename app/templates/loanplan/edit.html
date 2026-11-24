@@ -1,0 +1,68 @@
+
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h1>Update Loan Plan</h1>
+
+    <form method="POST" action="{% url 'update_loan_plan' data.id %}">
+        {% csrf_token %}
+
+        <label>Loan Plan Name:</label>
+        <input
+            type="text"
+            class="form-control"
+            name="name"
+            value="{{ data.name }}"
+            required
+        >
+
+        <label>Loan Type:</label>
+        <select class="form-control" name="loan_type" required>
+            {% for item in loan_types %}
+                <option
+                    value="{{ item.id }}"
+                    {% if item.id == data.loan_type_id %}selected{% endif %}
+                >
+                    {{ item.name }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label>Interest Rate (%):</label>
+        <input
+            type="number"
+            class="form-control"
+            name="interest_rate"
+            step="0.01"
+            min="0"
+            value="{{ data.interest_rate }}"
+            required
+        >
+
+        <label>Duration (Months):</label>
+        <input
+            type="number"
+            class="form-control"
+            name="duration"
+            min="1"
+            value="{{ data.duration }}"
+            required
+        >
+
+        <label>Description:</label>
+        <textarea
+            class="form-control"
+            name="description"
+        >{{ data.description }}</textarea>
+
+        <br>
+
+        <button type="submit" class="btn btn-success">
+            Update
+        </button>
+
+        <a href="{% url 'loan_plan_index' %}" class="btn btn-danger">
+            Cancel
+        </a>
+    </form>
+{% endblock content %}

@@ -1,0 +1,35 @@
+
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h1>Delete Loan Plan</h1>
+
+    <p>
+        Are you sure you want to delete
+        "{{ data.name }}"?
+    </p>
+
+    <p>
+        Loan Type: {{ data.loan_type.name }}
+    </p>
+
+    <p>
+        Interest Rate: {{ data.interest_rate }}%
+    </p>
+
+    <p>
+        Duration: {{ data.duration }} Months
+    </p>
+
+    <form method="POST" action="{% url 'remove_loan_plan' data.id %}">
+        {% csrf_token %}
+
+        <button type="submit" class="btn btn-danger">
+            Yes, Delete
+        </button>
+
+        <a href="{% url 'loan_plan_index' %}" class="btn btn-secondary">
+            Cancel
+        </a>
+    </form>
+{% endblock content %}

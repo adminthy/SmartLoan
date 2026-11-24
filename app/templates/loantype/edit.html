@@ -1,0 +1,27 @@
+
+{% extends 'layout.html' %}
+{% block content %}
+    <h1>Update Loan Type</h1>
+
+    <form method="POST" action="{% url 'update_loan_type' data.id %}">
+        {% csrf_token %}
+
+        <label>Loan type Name:</label>
+        <input
+            type="text"
+            class="form-control"
+            name="loan-type-name"
+            value="{{ data.name }}"
+            required
+        >
+
+        <label>Description:</label>
+        <textarea
+            class="form-control"
+            name="loan-type-description"
+        >{{ data.description }}</textarea>
+
+        <button type="submit" class="btn btn-success">Update</button>
+        <a href="{% url 'loan_type_index' %}" class="btn btn-danger">Cancel</a>
+    </form>
+{% endblock content %}

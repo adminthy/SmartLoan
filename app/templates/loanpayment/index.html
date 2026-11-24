@@ -1,0 +1,53 @@
+
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<h1>Loan Payment Management</h1>
+
+<a href="{% url 'add_loan_payment' %}"
+   class="btn btn-primary mb-3">
+    Add Loan Payment
+</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>No.</th>
+            <th>Borrower</th>
+            <th>Payee Name</th>
+            <th>Payment Amount</th>
+            <th>Penalty Amount</th>
+            <th>Overdue</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for item in data %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ item.loan_application.borrower.name }}</td>
+            <td>{{ item.payee_name }}</td>
+            <td>{{ item.payment_amount }}</td>
+            <td>{{ item.penalty_amount }}</td>
+            <td>{{ item.overdue }}</td>
+            <td>
+                <a href="{% url 'edit_loan_payment' item.id %}"
+                   class="btn btn-warning btn-sm">Edit</a>
+
+                <a href="{% url 'delete_loan_payment' item.id %}"
+                   class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7" class="text-center">
+                No Loan Payment Found
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock content %}

@@ -1,0 +1,63 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2>Edit Loan Repayment Schedule</h2>
+
+    <form method="POST"
+          action="{% url 'update_loan_repayment_schedule' data.id %}">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label>Loan Application</label>
+            <select name="loan_application" class="form-control" required>
+
+                {% for item in applications %}
+                <option value="{{ item.id }}"
+                    {% if item.id == data.loan_application_id %}selected{% endif %}>
+                    {{ item.borrower.name }} - {{ item.amount }}
+                </option>
+                {% endfor %}
+
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label>Due Date</label>
+            <input type="date" name="due_date"
+                   class="form-control"
+                   value="{{ data.due_date|date:'Y-m-d' }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Payment Amount</label>
+            <input type="number" name="payment_amount"
+                   class="form-control" step="0.01" min="0.01"
+                   value="{{ data.payment_amount }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Status</label>
+            <select name="status" class="form-control" required>
+                <option value="Pending" {% if data.status == "Pending" %}selected{% endif %}>Pending</option>
+                <option value="Paid" {% if data.status == "Paid" %}selected{% endif %}>Paid</option>
+                <option value="Overdue" {% if data.status == "Overdue" %}selected{% endif %}>Overdue</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Update
+        </button>
+
+        <a href="{% url 'loan_repayment_schedule_index' %}"
+           class="btn btn-secondary">
+            Back
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

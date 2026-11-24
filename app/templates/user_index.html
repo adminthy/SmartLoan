@@ -1,0 +1,69 @@
+
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <h2>User Management</h2>
+
+    <a href="{% url 'add_user' %}" class="btn btn-primary mb-3">
+        Add New User
+    </a>
+
+    {% for message in messages %}
+        <div class="alert alert-info">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>No.</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Staff Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    {% if user.is_staff %}
+                        Staff
+                    {% else %}
+                        Normal User
+                    {% endif %}
+                </td>
+                <td>
+                    {% if not user.is_superuser %}
+                    <form method="POST"
+                          action="{% url 'delete_user' user.id %}"
+                          onsubmit="return confirm('Are you sure?');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            Delete
+                        </button>
+                    </form>
+                    {% else %}
+                        Admin
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center">
+                    No users found.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

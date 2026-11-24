@@ -1,0 +1,64 @@
+
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h1>Create New Loan Plan</h1>
+
+    <form method="POST" action="{% url 'save_loan_plan' %}">
+        {% csrf_token %}
+
+        <label>Loan Plan Name:</label>
+        <input
+            type="text"
+            class="form-control"
+            name="name"
+            required
+        >
+
+        <label>Loan Type:</label>
+        <select class="form-control" name="loan_type" required>
+            <option value="">-- Select Loan Type --</option>
+
+            {% for item in loan_types %}
+                <option value="{{ item.id }}">
+                    {{ item.name }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label>Interest Rate (%):</label>
+        <input
+            type="number"
+            class="form-control"
+            name="interest_rate"
+            step="0.01"
+            min="0"
+            required
+        >
+
+        <label>Duration (Months):</label>
+        <input
+            type="number"
+            class="form-control"
+            name="duration"
+            min="1"
+            required
+        >
+
+        <label>Description:</label>
+        <textarea
+            class="form-control"
+            name="description"
+        ></textarea>
+
+        <br>
+
+        <button type="submit" class="btn btn-primary">
+            Save
+        </button>
+
+        <a href="{% url 'loan_plan_index' %}" class="btn btn-danger">
+            Cancel
+        </a>
+    </form>
+{% endblock content %}

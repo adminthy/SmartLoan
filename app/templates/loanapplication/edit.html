@@ -1,0 +1,88 @@
+
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<h1>Edit Loan</h1>
+
+<form method="POST" action="{% url 'update_loan_application' data.id %}">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label>Ref No</label>
+        <input type="text" name="ref_no" class="form-control"
+               value="{{ data.ref_no }}">
+    </div>
+
+    <div class="mb-3">
+        <label>Borrower</label>
+        <select name="borrower" class="form-control" required>
+            {% for item in borrowers %}
+            <option value="{{ item.id }}"
+                {% if item.id == data.borrower_id %}selected{% endif %}>
+                {{ item.name }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Loan Type</label>
+        <select name="loan_type" class="form-control">
+            <option value="">-- Select Loan Type --</option>
+            {% for item in loan_types %}
+            <option value="{{ item.id }}"
+                {% if item.id == data.loan_type_id %}selected{% endif %}>
+                {{ item.name }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Loan Plan</label>
+        <select name="loan_plan" class="form-control" required>
+            {% for item in loan_plans %}
+            <option value="{{ item.id }}"
+                {% if item.id == data.loan_plan_id %}selected{% endif %}>
+                {{ item.name }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Purpose</label>
+        <textarea name="purpose" class="form-control">{{ data.purpose }}</textarea>
+    </div>
+
+    <div class="mb-3">
+        <label>Amount</label>
+        <input type="number" name="amount" class="form-control"
+               value="{{ data.amount }}" min="0.01" step="0.01" required>
+    </div>
+
+    <div class="mb-3">
+        <label>Status</label>
+        <select name="status" class="form-control" required>
+            <option value="Pending" {% if data.status == "Pending" %}selected{% endif %}>Pending</option>
+            <option value="Approved" {% if data.status == "Approved" %}selected{% endif %}>Approved</option>
+            <option value="Rejected" {% if data.status == "Rejected" %}selected{% endif %}>Rejected</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Release Date</label>
+        <input type="date" name="release_date" class="form-control"
+               value="{{ data.release_date|date:'Y-m-d' }}">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+
+    <a href="{% url 'loan_application_index' %}" class="btn btn-secondary">
+        Back
+    </a>
+
+</form>
+
+{% endblock content %}

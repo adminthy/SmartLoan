@@ -1,0 +1,75 @@
+
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<h1>Edit Payment</h1>
+
+<form method="POST" action="{% url 'update_loan_payment' data.id %}">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label>Select Loan</label>
+        <select name="loan_application" class="form-control" required>
+            {% for item in applications %}
+            <option value="{{ item.id }}"
+                {% if item.id == data.loan_application_id %}selected{% endif %}>
+                {{ item.ref_no|default:item.id }} - {{ item.borrower.name }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Payee Name</label>
+        <input type="text"
+               name="payee_name"
+               class="form-control"
+               value="{{ data.payee_name|default:'' }}"
+               required>
+    </div>
+
+    <div class="mb-3">
+        <label>Payment Amount</label>
+        <input type="number"
+               name="payment_amount"
+               class="form-control"
+               value="{{ data.payment_amount }}"
+               min="0.01"
+               step="0.01"
+               required>
+    </div>
+
+    <div class="mb-3">
+        <label>Penalty Amount</label>
+        <input type="number"
+               name="penalty_amount"
+               class="form-control"
+               value="{{ data.penalty_amount }}"
+               min="0"
+               step="0.01"
+               required>
+    </div>
+
+    <div class="mb-3">
+        <label>Overdue</label>
+        <select name="overdue" class="form-control" required>
+            <option value="No"
+                {% if data.overdue == "No" %}selected{% endif %}>
+                No
+            </option>
+            <option value="Yes"
+                {% if data.overdue == "Yes" %}selected{% endif %}>
+                Yes
+            </option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">Update</button>
+
+    <a href="{% url 'loan_payment_index' %}"
+       class="btn btn-danger">Cancel</a>
+
+</form>
+
+{% endblock content %}
